@@ -8,24 +8,33 @@ import {
   Input,
   SimpleGrid,
   Text,
-} from '@chakra-ui/react';
-import { Alchemy, Network, Utils } from 'alchemy-sdk';
-import { useState } from 'react';
+} from "@chakra-ui/react";
+import { Alchemy, Network, Utils } from "alchemy-sdk";
+import { useEffect, useState } from "react";
+import { ConnectButton } from "@web3uikit/web3";
+import { useMoralis } from "react-moralis";
+
+const config = {
+  apiKey: "pU2_RPoCKPqVjzEcv6tn-37YgNyUY-uH",
+  network: Network.ETH_MAINNET,
+};
+
+const alchemy = new Alchemy(config);
 
 function App() {
-  const [userAddress, setUserAddress] = useState('');
+  const [userAddress, setUserAddress] = useState("");
   const [results, setResults] = useState([]);
   const [hasQueried, setHasQueried] = useState(false);
   const [tokenDataObjects, setTokenDataObjects] = useState([]);
+  const { isWeb3Enabled, account } = useMoralis();
 
-  async function getTokenBalance() {
-    const config = {
-      apiKey: '<-- COPY-PASTE YOUR ALCHEMY API KEY HERE -->',
-      network: Network.ETH_MAINNET,
-    };
-
-    const alchemy = new Alchemy(config);
-    const data = await alchemy.core.getTokenBalances(userAddress);
+  async function getTokenBalance(address = null) {
+    let data;
+    if (!address) {
+      data = await alchemy.core.getTokenBalances(userAddress);
+    } else {
+      data = await alchemy.core.getTokenBalances(address);
+    }
 
     setResults(data);
 
@@ -41,13 +50,26 @@ function App() {
     setTokenDataObjects(await Promise.all(tokenDataPromises));
     setHasQueried(true);
   }
+
+  useEffect(() => {
+    if (isWeb3Enabled) {
+      console.log("connected");
+      console.log(account);
+      getTokenBalance(account);
+    } else {
+      console.log("nada");
+      setHasQueried(false);
+    }
+  }, [isWeb3Enabled]);
+
   return (
     <Box w="100vw">
       <Center>
+        <ConnectButton moralisAuth={false} />
         <Flex
-          alignItems={'center'}
+          alignItems={"center"}
           justifyContent="center"
-          flexDirection={'column'}
+          flexDirection={"column"}
         >
           <Heading mb={0} fontSize={36}>
             ERC-20 Token Indexer
@@ -62,7 +84,7 @@ function App() {
         w="100%"
         flexDirection="column"
         alignItems="center"
-        justifyContent={'center'}
+        justifyContent={"center"}
       >
         <Heading mt={42}>
           Get all the ERC-20 token balances of this address:
@@ -76,22 +98,24 @@ function App() {
           bgColor="white"
           fontSize={24}
         />
-        <Button fontSize={20} onClick={getTokenBalance} mt={36} bgColor="blue">
+        <Button fontSize={20} onClick={getTokenBalance} mt={36} bgColor="#ccc">
           Check ERC-20 Token Balances
         </Button>
 
         <Heading my={36}>ERC-20 token balances:</Heading>
 
         {hasQueried ? (
-          <SimpleGrid w={'90vw'} columns={4} spacing={24}>
+          <SimpleGrid w={"90vw"} columns={4} spacing={24}>
             {results.tokenBalances.map((e, i) => {
               return (
                 <Flex
-                  flexDir={'column'}
+                  flexDir={"column"}
                   color="white"
-                  bg="blue"
-                  w={'20vw'}
-                  key={e.id}
+                  bg="#666"
+                  w={"20vw"}
+                  borderRadius={"5px"}
+                  padding={"10px"}
+                  key={e.contractAddress}
                 >
                   <Box>
                     <b>Symbol:</b> ${tokenDataObjects[i].symbol}&nbsp;
@@ -109,7 +133,7 @@ function App() {
             })}
           </SimpleGrid>
         ) : (
-          'Please make a query! This may take a few seconds...'
+          "Please make a query! This may take a few seconds..."
         )}
       </Flex>
     </Box>
