@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { Alchemy, Network, Utils } from "alchemy-sdk";
 import { useEffect, useState } from "react";
-import { ConnectButton } from "@web3uikit/web3";
 import { useMoralis } from "react-moralis";
+import Header from "./components/Header";
 
 const config = {
   apiKey: "pU2_RPoCKPqVjzEcv6tn-37YgNyUY-uH",
@@ -63,22 +63,11 @@ function App() {
   }, [isWeb3Enabled]);
 
   return (
-    <Box w="100vw">
+    <Box w="100vw" h={"100vh"}>
+      <Header setUserAddress={setUserAddress}></Header>
       <Center>
-        <ConnectButton moralisAuth={false} />
-        <Flex
-          alignItems={"center"}
-          justifyContent="center"
-          flexDirection={"column"}
-        >
-          <Heading mb={0} fontSize={36}>
-            ERC-20 Token Indexer
-          </Heading>
-          <Text>
-            Plug in an address and this website will return all of its ERC-20
-            token balances!
-          </Text>
-        </Flex>
+        Plug in an address and this website will return all of its ERC-20 token
+        balances!
       </Center>
       <Flex
         w="100%"
@@ -89,16 +78,12 @@ function App() {
         <Heading mt={42}>
           Get all the ERC-20 token balances of this address:
         </Heading>
-        <Input
-          onChange={(e) => setUserAddress(e.target.value)}
-          color="black"
-          w="600px"
-          textAlign="center"
-          p={4}
-          bgColor="white"
-          fontSize={24}
-        />
-        <Button fontSize={20} onClick={getTokenBalance} mt={36} bgColor="#ccc">
+        <Button
+          fontSize={20}
+          onClick={() => getTokenBalance()}
+          mt={36}
+          bgColor="#ccc"
+        >
           Check ERC-20 Token Balances
         </Button>
 
