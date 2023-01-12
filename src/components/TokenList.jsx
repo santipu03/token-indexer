@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Image,
-  Input,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Utils } from "alchemy-sdk";
 
 function TokenList({ results, tokenDataObjects }) {

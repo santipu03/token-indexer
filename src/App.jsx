@@ -2,8 +2,9 @@ import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
 import { Alchemy, Network } from "alchemy-sdk";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
-import TokenList from "./components/TokenList";
+import Main from "./components/Main";
 
 const config = {
   apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
@@ -23,15 +24,12 @@ function App() {
     setHasQueried(false);
     let data;
     if (!address) {
-      console.log("getting from input...");
       data = await alchemy.core.getTokenBalances(userAddress);
     } else {
-      console.log("getting from account...");
       data = await alchemy.core.getTokenBalances(address);
     }
 
     setResults(data);
-
     const tokenDataPromises = [];
 
     for (let i = 0; i < data.tokenBalances.length; i++) {
@@ -57,53 +55,17 @@ function App() {
   }, [isWeb3Enabled]);
 
   return (
-    <Box w="100vw" h={"100vh"} bg={"#f8f9fa"}>
-      <Header setUserAddress={setUserAddress}></Header>
-      <Center>
-        <Button
-          fontSize={20}
-          onClick={() => getTokenBalance()}
-          mt={36}
-          bgColor="#ccc"
-        >
-          Check ERC-20 Token Balances
-        </Button>
-      </Center>
-      <Box border={"1px solid grey"} margin={"100px"} borderRadius={"5px"}>
-        <Heading padding={"20px"} margin={0}>
-          Wallet:
-        </Heading>
-        <Flex w="100%">
-          <Flex
-            w={"100%"}
-            gap={"20px"}
-            margin={"20px"}
-            marginBottom={0}
-            padding={"15px 0"}
-            borderBottom={"1px solid grey"}
-          >
-            <Box w={"450px"} fontSize={"1.3rem"} fontWeight={"bold"}>
-              Name
-            </Box>
-            <Box w={"500px"} fontSize={"1.3rem"} fontWeight={"bold"}>
-              Symbol
-            </Box>
-            <Box w={"200px"} fontSize={"1.3rem"} fontWeight={"bold"}>
-              Contract Address
-            </Box>
-            <Box marginLeft={"auto"} fontSize={"1.3rem"} fontWeight={"bold"}>
-              Balance
-            </Box>
-          </Flex>
-        </Flex>
-        {hasQueried ? (
-          <>
-            <TokenList results={results} tokenDataObjects={tokenDataObjects} />
-          </>
-        ) : (
-          <Box></Box>
-        )}
-      </Box>
+    <Box w="100vw" h="100vh" bg={"#f8f9fa"}>
+      <Header
+        setUserAddress={setUserAddress}
+        getTokenBalance={getTokenBalance}
+      ></Header>
+      <Main
+        hasQueried={hasQueried}
+        results={results}
+        tokenDataObjects={tokenDataObjects}
+      ></Main>
+      <Footer></Footer>
     </Box>
   );
 }
