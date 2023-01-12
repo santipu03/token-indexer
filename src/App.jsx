@@ -1,21 +1,12 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Image,
-  Input,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
-import { Alchemy, Network, Utils } from "alchemy-sdk";
+import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
+import { Alchemy, Network } from "alchemy-sdk";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import Header from "./components/Header";
+import TokenList from "./components/TokenList";
 
 const config = {
-  apiKey: "pU2_RPoCKPqVjzEcv6tn-37YgNyUY-uH",
+  apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
   network: Network.ETH_MAINNET,
 };
 
@@ -29,10 +20,13 @@ function App() {
   const { isWeb3Enabled, account } = useMoralis();
 
   async function getTokenBalance(address = null) {
+    setHasQueried(false);
     let data;
     if (!address) {
+      console.log("getting from input...");
       data = await alchemy.core.getTokenBalances(userAddress);
     } else {
+      console.log("getting from account...");
       data = await alchemy.core.getTokenBalances(address);
     }
 
@@ -63,21 +57,9 @@ function App() {
   }, [isWeb3Enabled]);
 
   return (
-    <Box w="100vw" h={"100vh"}>
+    <Box w="100vw" h={"100vh"} bg={"#f8f9fa"}>
       <Header setUserAddress={setUserAddress}></Header>
       <Center>
-        Plug in an address and this website will return all of its ERC-20 token
-        balances!
-      </Center>
-      <Flex
-        w="100%"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent={"center"}
-      >
-        <Heading mt={42}>
-          Get all the ERC-20 token balances of this address:
-        </Heading>
         <Button
           fontSize={20}
           onClick={() => getTokenBalance()}
@@ -86,41 +68,42 @@ function App() {
         >
           Check ERC-20 Token Balances
         </Button>
-
-        <Heading my={36}>ERC-20 token balances:</Heading>
-
+      </Center>
+      <Box border={"1px solid grey"} margin={"100px"} borderRadius={"5px"}>
+        <Heading padding={"20px"} margin={0}>
+          Wallet:
+        </Heading>
+        <Flex w="100%">
+          <Flex
+            w={"100%"}
+            gap={"20px"}
+            margin={"20px"}
+            marginBottom={0}
+            padding={"15px 0"}
+            borderBottom={"1px solid grey"}
+          >
+            <Box w={"450px"} fontSize={"1.3rem"} fontWeight={"bold"}>
+              Name
+            </Box>
+            <Box w={"500px"} fontSize={"1.3rem"} fontWeight={"bold"}>
+              Symbol
+            </Box>
+            <Box w={"200px"} fontSize={"1.3rem"} fontWeight={"bold"}>
+              Contract Address
+            </Box>
+            <Box marginLeft={"auto"} fontSize={"1.3rem"} fontWeight={"bold"}>
+              Balance
+            </Box>
+          </Flex>
+        </Flex>
         {hasQueried ? (
-          <SimpleGrid w={"90vw"} columns={4} spacing={24}>
-            {results.tokenBalances.map((e, i) => {
-              return (
-                <Flex
-                  flexDir={"column"}
-                  color="white"
-                  bg="#666"
-                  w={"20vw"}
-                  borderRadius={"5px"}
-                  padding={"10px"}
-                  key={e.contractAddress}
-                >
-                  <Box>
-                    <b>Symbol:</b> ${tokenDataObjects[i].symbol}&nbsp;
-                  </Box>
-                  <Box>
-                    <b>Balance:</b>&nbsp;
-                    {Utils.formatUnits(
-                      e.tokenBalance,
-                      tokenDataObjects[i].decimals
-                    )}
-                  </Box>
-                  <Image src={tokenDataObjects[i].logo} />
-                </Flex>
-              );
-            })}
-          </SimpleGrid>
+          <>
+            <TokenList results={results} tokenDataObjects={tokenDataObjects} />
+          </>
         ) : (
-          "Please make a query! This may take a few seconds..."
+          <Box></Box>
         )}
-      </Flex>
+      </Box>
     </Box>
   );
 }
