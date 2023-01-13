@@ -2,6 +2,16 @@ import { Box, Flex, Center } from "@chakra-ui/react";
 import { Utils } from "alchemy-sdk";
 
 function TokenList({ results, tokenDataObjects }) {
+  function formatBalance(number) {
+    const formatter = Intl.NumberFormat("en", { notation: "compact" });
+
+    if (number > 1000000) {
+      return formatter.format(number);
+    } else {
+      return number;
+    }
+  }
+
   return (
     <Flex
       w="100%"
@@ -33,9 +43,13 @@ function TokenList({ results, tokenDataObjects }) {
                 &nbsp;
               </Box>
               <Box w={"250px"} textAlign={"end"}>
-                {Utils.formatUnits(
-                  e.tokenBalance,
-                  tokenDataObjects[i].decimals
+                {formatBalance(
+                  Number(
+                    Utils.formatUnits(
+                      e.tokenBalance,
+                      tokenDataObjects[i].decimals
+                    )
+                  )
                 )}
               </Box>
             </Flex>
