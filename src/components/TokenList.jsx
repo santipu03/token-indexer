@@ -11,7 +11,7 @@ function TokenList({ results, tokenDataObjects }) {
       padding={"0 20px"}
     >
       {results.length === 0 ? (
-        <Center marginTop={"100px"} fontWeight={"bold"}>
+        <Center marginTop={"100px"} fontSize={"1.5rem"}>
           No ERC20 Tokens in this address
         </Center>
       ) : (

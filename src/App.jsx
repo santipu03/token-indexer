@@ -18,10 +18,13 @@ function App() {
   const [results, setResults] = useState([]);
   const [hasQueried, setHasQueried] = useState(false);
   const [tokenDataObjects, setTokenDataObjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { isWeb3Enabled, account } = useMoralis();
 
   async function getTokenBalance(address = null) {
     setHasQueried(false);
+    setIsLoading(true);
     let data;
     if (!address) {
       data = await alchemy.core.getTokenBalances(userAddress);
@@ -41,6 +44,7 @@ function App() {
 
     setTokenDataObjects(await Promise.all(tokenDataPromises));
     setHasQueried(true);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -61,6 +65,7 @@ function App() {
         hasQueried={hasQueried}
         results={results}
         tokenDataObjects={tokenDataObjects}
+        isLoading={isLoading}
       ></Main>
       {/* <Footer></Footer> */}
     </Box>

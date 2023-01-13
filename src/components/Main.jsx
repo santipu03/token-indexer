@@ -2,7 +2,7 @@ import { Flex, Heading, Box, Center } from "@chakra-ui/react";
 import TokenList from "./TokenList";
 import { Utils } from "alchemy-sdk";
 
-function Main({ hasQueried, results, tokenDataObjects }) {
+function Main({ hasQueried, results, tokenDataObjects, isLoading }) {
   // Filter tokens to get only balances above 0
   function filterTokensByBalance() {
     return results.tokenBalances.filter((result, i) => {
@@ -68,10 +68,14 @@ function Main({ hasQueried, results, tokenDataObjects }) {
             </Box>
           </Flex>
         </Flex>
-        {hasQueried ? (
+        {isLoading ? (
+          <Center marginTop={"100px"} fontSize={"1.5rem"}>
+            Loading...
+          </Center>
+        ) : hasQueried ? (
           renderTokenBalances()
         ) : (
-          <Center marginTop={"100px"} fontWeight={"bold"}>
+          <Center marginTop={"100px"} fontSize={"1.5rem"}>
             Search for some address...
           </Center>
         )}
