@@ -23,12 +23,8 @@ function App() {
   const { isWeb3Enabled, account } = useMoralis();
 
   function checkAccount() {
-    const patternAddress = /^0x[a-fA-F0-9]{40}$/;
-    const patternENS = /^[a-zA-Z0-9()]{1,256}\.eth$\s*/;
-    if (!patternAddress.test(userAddress)) {
-      return patternENS.test(userAddress);
-    }
-    return patternAddress.test(userAddress);
+    const pattern = /^0x[a-fA-F0-9]{40}$/;
+    return pattern.test(userAddress);
   }
 
   async function getTokenBalance(address = null) {
@@ -41,13 +37,7 @@ function App() {
         setIsLoading(false);
         return;
       }
-      try {
-        data = await alchemy.core.getTokenBalances(userAddress);
-      } catch (e) {
-        setIsLoading(false);
-        alert("OOOOPS, something went wrong! Try Again");
-        return;
-      }
+      data = await alchemy.core.getTokenBalances(userAddress);
     } else {
       data = await alchemy.core.getTokenBalances(address);
     }

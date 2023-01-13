@@ -21,5 +21,5 @@ Here are a few challenge suggestions:
 4. 🟢 The token balances can sometimes be a little long and break the outline of the page... can you fix that? 🔧
 5. 🟢 There is no error-checking for wrongly formed requests, or really any error checking of any kind... can you add some in?
 6. 🟢 The images and grid display could look better... anything you can do about that?
-7. 🟢 Can you add ENS support for inputs?
+7. 🔴 Can you add ENS support for inputs?
 8. Completely open-ended!! Use this as the base for your next hackathon project, dream company or personal expedition :)

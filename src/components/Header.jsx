@@ -25,7 +25,7 @@ function Header({ setUserAddress, getTokenBalance }) {
             bgColor="white"
             fontSize={18}
             h={40}
-            placeholder={"Paste an address or ENS here"}
+            placeholder={"Paste an address here"}
           />
           <Button
             fontSize={20}

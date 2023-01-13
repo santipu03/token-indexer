@@ -8,7 +8,6 @@ function Footer() {
       color={"#fff"}
       h="60px"
       justifyContent={"center"}
-      fontWeight={"bold"}
     >
       Made with ❤ by santipu
     </Flex>
