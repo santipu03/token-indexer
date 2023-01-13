@@ -8,7 +8,6 @@ function TokenList({ results, tokenDataObjects }) {
       flexDirection="column"
       alignItems="center"
       justifyContent={"center"}
-      padding={"0 20px"}
     >
       {results.length === 0 ? (
         <Center marginTop={"100px"} fontSize={"1.5rem"}>

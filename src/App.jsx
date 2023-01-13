@@ -22,11 +22,21 @@ function App() {
 
   const { isWeb3Enabled, account } = useMoralis();
 
+  function checkAccount() {
+    const pattern = /^0x[a-fA-F0-9]{40}$/;
+    return pattern.test(userAddress);
+  }
+
   async function getTokenBalance(address = null) {
-    setHasQueried(false);
     setIsLoading(true);
     let data;
     if (!address) {
+      const isCorrect = checkAccount();
+      if (!isCorrect) {
+        alert("INCORRECT ADDRESS");
+        setIsLoading(false);
+        return;
+      }
       data = await alchemy.core.getTokenBalances(userAddress);
     } else {
       data = await alchemy.core.getTokenBalances(address);

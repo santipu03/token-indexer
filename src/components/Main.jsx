@@ -29,23 +29,23 @@ function Main({ hasQueried, results, tokenDataObjects, isLoading }) {
 
   return (
     <Box>
+      <Heading margin={"50px 100px"} fontSize={"36px"}>
+        Wallet:
+      </Heading>
       <Box
         border={"1px solid grey"}
         margin={"100px"}
+        marginTop={0}
+        padding={"40px"}
         borderRadius={"5px"}
         minHeight={"600px"}
         bg={"#fff"}
       >
-        <Heading padding={"20px"} margin={0} fontSize={"36px"}>
-          Wallet:
-        </Heading>
         <Flex w="100%">
           <Flex
             w={"100%"}
             gap={"20px"}
-            margin={"20px"}
-            marginBottom={0}
-            padding={"15px 0"}
+            paddingBottom={"25px"}
             borderBottom={"1px solid grey"}
             justifyContent={"space-between"}
           >

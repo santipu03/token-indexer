@@ -16,9 +16,9 @@ function Header({ setUserAddress, getTokenBalance }) {
         <Flex gap={"20px"}>
           <Input
             onChange={(e) => setUserAddress(e.target.value)}
-            borderRadius={"16px"}
+            borderRadius={"10px"}
             color="black"
-            w="600px"
+            w="500px"
             p={4}
             borderColor={"#000"}
             paddingLeft={"15px"}
@@ -37,7 +37,9 @@ function Header({ setUserAddress, getTokenBalance }) {
             Search
           </Button>
         </Flex>
-        <ConnectButton moralisAuth={false} />
+        <Flex w={"320px"} justifyContent={"flex-end"}>
+          <ConnectButton moralisAuth={false} />
+        </Flex>
       </Flex>
     </Box>
   );
