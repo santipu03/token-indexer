@@ -28,14 +28,12 @@ function Main({ hasQueried, results, tokenDataObjects, isLoading }) {
   }
 
   return (
-    <Box>
-      <Heading margin={"50px 100px"} fontSize={"36px"}>
+    <Box padding={"3rem 6rem"} minHeight={"calc(100vh - 161px)"}>
+      <Heading marginBottom={"50px"} fontSize={"36px"}>
         Wallet:
       </Heading>
       <Box
         border={"1px solid grey"}
-        margin={"100px"}
-        marginTop={0}
         padding={"40px"}
         borderRadius={"5px"}
         minHeight={"600px"}

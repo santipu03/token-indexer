@@ -66,7 +66,7 @@ function App() {
   }, [isWeb3Enabled]);
 
   return (
-    <Box w="100vw" h="100vh" bg={"#f8f9fa"}>
+    <Box w="100vw" h="100vh" bg={"#f8f9fa"} overflowX={"hidden"}>
       <Header
         setUserAddress={setUserAddress}
         getTokenBalance={getTokenBalance}
@@ -77,7 +77,7 @@ function App() {
         tokenDataObjects={tokenDataObjects}
         isLoading={isLoading}
       ></Main>
-      {/* <Footer></Footer> */}
+      <Footer></Footer>
     </Box>
   );
 }

@@ -7,7 +7,7 @@ function Header({ setUserAddress, getTokenBalance }) {
       <Flex
         alignItems={"center"}
         justifyContent={"space-between"}
-        h={"100%"}
+        h={"100px"}
         padding={"30px 100px"}
       >
         <Heading m={0} fontSize={36} p={0}>
