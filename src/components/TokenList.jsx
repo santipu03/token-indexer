@@ -1,7 +1,7 @@
 import { Box, Flex, Center } from "@chakra-ui/react";
 import { Utils } from "alchemy-sdk";
 
-function TokenList({ results, tokenDataObjects }) {
+function TokenList({ ERC20results, tokenDataObjects }) {
   function formatBalance(number) {
     const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -19,12 +19,12 @@ function TokenList({ results, tokenDataObjects }) {
       alignItems="center"
       justifyContent={"center"}
     >
-      {results.length === 0 ? (
+      {ERC20results.length === 0 ? (
         <Center marginTop={"100px"} fontSize={"1.5rem"}>
           No ERC20 Tokens in this address
         </Center>
       ) : (
-        results.map((e, i) => {
+        ERC20results.map((e, i) => {
           return (
             <Flex
               w={"100%"}
@@ -38,8 +38,8 @@ function TokenList({ results, tokenDataObjects }) {
               <Box w={"450px"}>{tokenDataObjects[i].name}&nbsp;</Box>
               <Box w={"450px"}>{tokenDataObjects[i].symbol}&nbsp;</Box>
               <Box w={"250px"}>
-                {results[i].contractAddress.substring(0, 6)}...
-                {results[i].contractAddress.substring(38)}
+                {ERC20results[i].contractAddress.substring(0, 6)}...
+                {ERC20results[i].contractAddress.substring(38)}
                 &nbsp;
               </Box>
               <Box w={"250px"} textAlign={"end"}>

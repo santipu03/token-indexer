@@ -1,7 +1,7 @@
 import { Flex, Heading, Box, Input, Button } from "@chakra-ui/react";
 import { ConnectButton } from "@web3uikit/web3";
 
-function Header({ setUserAddress, getTokenBalance }) {
+function Header({ setUserAddress, getERC20TokenBalance }) {
   return (
     <Box borderBottom={"1px solid #e7eaf3"} bg={"white"}>
       <Flex
@@ -11,7 +11,7 @@ function Header({ setUserAddress, getTokenBalance }) {
         padding={"30px 100px"}
       >
         <Heading m={0} fontSize={36} p={0}>
-          ERC-20 Token Indexer
+          Token Indexer
         </Heading>
         <Flex gap={"20px"}>
           <Input
@@ -31,7 +31,7 @@ function Header({ setUserAddress, getTokenBalance }) {
             fontSize={20}
             height={"40px"}
             color={"#fff"}
-            onClick={() => getTokenBalance()}
+            onClick={() => getERC20TokenBalance()}
             bgColor="#3498db"
           >
             Search

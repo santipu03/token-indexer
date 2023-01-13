@@ -15,10 +15,12 @@ const alchemy = new Alchemy(config);
 
 function App() {
   const [userAddress, setUserAddress] = useState("");
-  const [results, setResults] = useState([]);
+  const [ERC20results, setERC20Results] = useState([]);
+  const [ERC721results, setERC721Results] = useState([]);
   const [hasQueried, setHasQueried] = useState(false);
   const [tokenDataObjects, setTokenDataObjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isERC20Selected, setIsERC20Selected] = useState(true);
 
   const { isWeb3Enabled, account } = useMoralis();
 
@@ -31,7 +33,13 @@ function App() {
     return patternAddress.test(userAddress);
   }
 
-  async function getTokenBalance(address = null) {
+  function switchTokenTabs(status) {
+    setIsERC20Selected(status);
+  }
+
+  async function getERC721TokenBalance(address = null) {}
+
+  async function getERC20TokenBalance(address = null) {
     setIsLoading(true);
     let data;
     if (!address) {
@@ -52,7 +60,7 @@ function App() {
       data = await alchemy.core.getTokenBalances(address);
     }
 
-    setResults(data);
+    setERC20Results(data);
     const tokenDataPromises = [];
 
     for (let i = 0; i < data.tokenBalances.length; i++) {
@@ -69,7 +77,7 @@ function App() {
 
   useEffect(() => {
     if (isWeb3Enabled) {
-      getTokenBalance(account);
+      getERC20TokenBalance(account);
     } else {
       setHasQueried(false);
     }
@@ -79,13 +87,15 @@ function App() {
     <Box w="100vw" h="100vh" bg={"#f8f9fa"} overflowX={"hidden"}>
       <Header
         setUserAddress={setUserAddress}
-        getTokenBalance={getTokenBalance}
+        getERC20TokenBalance={getERC20TokenBalance}
       ></Header>
       <Main
         hasQueried={hasQueried}
-        results={results}
+        ERC20results={ERC20results}
         tokenDataObjects={tokenDataObjects}
         isLoading={isLoading}
+        isERC20Selected={isERC20Selected}
+        switchTokenTabs={switchTokenTabs}
       ></Main>
       <Footer></Footer>
     </Box>
