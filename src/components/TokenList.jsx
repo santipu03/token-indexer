@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Center } from "@chakra-ui/react";
 import { Utils } from "alchemy-sdk";
 
 function TokenList({ results, tokenDataObjects }) {
@@ -10,28 +10,39 @@ function TokenList({ results, tokenDataObjects }) {
       justifyContent={"center"}
       padding={"0 20px"}
     >
-      {results.tokenBalances.map((e, i) => {
-        return (
-          <Flex
-            w={"100%"}
-            borderBottom={"1px solid grey"}
-            gap={"20px"}
-            padding={"15px 0"}
-            key={e.contractAddress}
-          >
-            <Box w={"450px"}>{tokenDataObjects[i].name}&nbsp;</Box>
-            <Box w={"500px"}>{tokenDataObjects[i].symbol}&nbsp;</Box>
-            <Box w={"200px"}>
-              {results.tokenBalances[i].contractAddress.substring(0, 6)}...
-              {results.tokenBalances[i].contractAddress.substring(38)}
-              &nbsp;
-            </Box>
-            <Box marginLeft={"auto"}>
-              {Utils.formatUnits(e.tokenBalance, tokenDataObjects[i].decimals)}
-            </Box>
-          </Flex>
-        );
-      })}
+      {results.length === 0 ? (
+        <Center marginTop={"100px"} fontWeight={"bold"}>
+          No ERC20 Tokens in this address
+        </Center>
+      ) : (
+        results.map((e, i) => {
+          return (
+            <Flex
+              w={"100%"}
+              borderBottom={"1px solid grey"}
+              gap={"20px"}
+              padding={"15px 0"}
+              key={e.contractAddress}
+              justifyContent={"space-between"}
+              fontSize={"1.3rem"}
+            >
+              <Box w={"450px"}>{tokenDataObjects[i].name}&nbsp;</Box>
+              <Box w={"450px"}>{tokenDataObjects[i].symbol}&nbsp;</Box>
+              <Box w={"250px"}>
+                {results[i].contractAddress.substring(0, 6)}...
+                {results[i].contractAddress.substring(38)}
+                &nbsp;
+              </Box>
+              <Box w={"250px"} textAlign={"end"}>
+                {Utils.formatUnits(
+                  e.tokenBalance,
+                  tokenDataObjects[i].decimals
+                )}
+              </Box>
+            </Flex>
+          );
+        })
+      )}
     </Flex>
   );
 }

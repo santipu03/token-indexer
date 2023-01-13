@@ -1,5 +1,5 @@
 import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
-import { Alchemy, Network } from "alchemy-sdk";
+import { Alchemy, Network, Utils } from "alchemy-sdk";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import Footer from "./components/Footer";
@@ -45,11 +45,8 @@ function App() {
 
   useEffect(() => {
     if (isWeb3Enabled) {
-      console.log("connected");
-      console.log(account);
       getTokenBalance(account);
     } else {
-      console.log("nada");
       setHasQueried(false);
     }
   }, [isWeb3Enabled]);
@@ -65,7 +62,7 @@ function App() {
         results={results}
         tokenDataObjects={tokenDataObjects}
       ></Main>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </Box>
   );
 }
