@@ -12,13 +12,24 @@ import {
 } from "@chakra-ui/react";
 
 function ERC721Tab({ isLoading, hasQueried, ERC721Results }) {
-  function filterTokensByERC721() {
-    return ERC721Results.ownedNfts.filter((nft) => {
+  // Filter tokens to get only ERC721 and to replace ipfs images with it's Gateway
+  function filterTokens() {
+    const ERC721Tokens = ERC721Results.ownedNfts.filter((nft) => {
       return nft.tokenType === "ERC721";
     });
+    ERC721Tokens.forEach((nft) => {
+      const imageURL = nft.rawMetadata.image.substring(0, 4);
+      if (imageURL === "ipfs") {
+        const CID = nft.rawMetadata.image.substring(7);
+        const newImageURL = "https://ipfs.io/ipfs/" + CID;
+        nft.rawMetadata.image = newImageURL;
+      }
+    });
+    return ERC721Tokens;
   }
+
   function renderTokenBalances() {
-    const filteredResults = filterTokensByERC721();
+    const filteredResults = filterTokens();
     console.log(filteredResults);
     return (
       <>
