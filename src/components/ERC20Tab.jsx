@@ -2,13 +2,18 @@ import { Flex, Heading, Box, Center } from "@chakra-ui/react";
 import TokenList from "./TokenList";
 import { Utils } from "alchemy-sdk";
 
-function ERC20Tab({ hasQueried, isLoading, ERC20results, tokenDataObjects }) {
+function ERC20Tab({
+  hasQueried,
+  isLoading,
+  ERC20Results,
+  ERC20TokenDataObjects,
+}) {
   // Filter tokens to get only balances above 0
   function filterTokensByBalance() {
-    return ERC20results.tokenBalances.filter((result, i) => {
+    return ERC20Results.tokenBalances.filter((result, i) => {
       const balance = Utils.formatUnits(
         result.tokenBalance,
-        tokenDataObjects[i].decimals
+        ERC20TokenDataObjects[i].decimals
       );
       return parseInt(balance) > 0;
     });
@@ -20,21 +25,15 @@ function ERC20Tab({ hasQueried, isLoading, ERC20results, tokenDataObjects }) {
     return (
       <>
         <TokenList
-          ERC20results={filteredResults}
-          tokenDataObjects={tokenDataObjects}
+          ERC20Results={filteredResults}
+          ERC20TokenDataObjects={ERC20TokenDataObjects}
         />
       </>
     );
   }
 
   return (
-    <Box
-      border={"1px solid grey"}
-      padding={"40px"}
-      borderRadius={"5px"}
-      minHeight={"600px"}
-      bg={"#fff"}
-    >
+    <>
       <Flex
         w={"100%"}
         gap={"20px"}
@@ -71,7 +70,7 @@ function ERC20Tab({ hasQueried, isLoading, ERC20results, tokenDataObjects }) {
           Search for some address...
         </Center>
       )}
-    </Box>
+    </>
   );
 }
 

@@ -15,10 +15,10 @@ const alchemy = new Alchemy(config);
 
 function App() {
   const [userAddress, setUserAddress] = useState("");
-  const [ERC20results, setERC20Results] = useState([]);
-  const [ERC721results, setERC721Results] = useState([]);
+  const [ERC20Results, setERC20Results] = useState([]);
+  const [ERC721Results, setERC721Results] = useState([]);
   const [hasQueried, setHasQueried] = useState(false);
-  const [tokenDataObjects, setTokenDataObjects] = useState([]);
+  const [ERC20TokenDataObjects, setERC20TokenDataObjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isERC20Selected, setIsERC20Selected] = useState(true);
 
@@ -37,11 +37,8 @@ function App() {
     setIsERC20Selected(status);
   }
 
-  async function getERC721TokenBalance(address = null) {}
-
-  async function getERC20TokenBalance(address = null) {
+  async function getTokensBalance(address = null) {
     setIsLoading(true);
-    let data;
     if (!address) {
       const isCorrect = checkAccount();
       if (!isCorrect) {
@@ -50,16 +47,28 @@ function App() {
         return;
       }
       try {
-        data = await alchemy.core.getTokenBalances(userAddress);
+        await getERC20TokenBalance(userAddress);
+        await getERC721TokenBalance(userAddress);
       } catch (e) {
         setIsLoading(false);
         alert("OOOOPS, something went wrong! Try Again");
         return;
       }
     } else {
-      data = await alchemy.core.getTokenBalances(address);
+      await getERC20TokenBalance(address);
+      await getERC721TokenBalance(address);
     }
+    setHasQueried(true);
+    setIsLoading(false);
+  }
 
+  async function getERC721TokenBalance(address) {
+    const data = await alchemy.nft.getNftsForOwner(address);
+    setERC721Results(data);
+  }
+
+  async function getERC20TokenBalance(address) {
+    const data = await alchemy.core.getTokenBalances(address);
     setERC20Results(data);
     const tokenDataPromises = [];
 
@@ -70,14 +79,12 @@ function App() {
       tokenDataPromises.push(tokenData);
     }
 
-    setTokenDataObjects(await Promise.all(tokenDataPromises));
-    setHasQueried(true);
-    setIsLoading(false);
+    setERC20TokenDataObjects(await Promise.all(tokenDataPromises));
   }
 
   useEffect(() => {
     if (isWeb3Enabled) {
-      getERC20TokenBalance(account);
+      getTokensBalance(account);
     } else {
       setHasQueried(false);
     }
@@ -87,12 +94,13 @@ function App() {
     <Box w="100vw" h="100vh" bg={"#f8f9fa"} overflowX={"hidden"}>
       <Header
         setUserAddress={setUserAddress}
-        getERC20TokenBalance={getERC20TokenBalance}
+        getTokensBalance={getTokensBalance}
       ></Header>
       <Main
         hasQueried={hasQueried}
-        ERC20results={ERC20results}
-        tokenDataObjects={tokenDataObjects}
+        ERC20Results={ERC20Results}
+        ERC20TokenDataObjects={ERC20TokenDataObjects}
+        ERC721Results={ERC721Results}
         isLoading={isLoading}
         isERC20Selected={isERC20Selected}
         switchTokenTabs={switchTokenTabs}

@@ -1,7 +1,7 @@
 import { Box, Flex, Center } from "@chakra-ui/react";
 import { Utils } from "alchemy-sdk";
 
-function TokenList({ ERC20results, tokenDataObjects }) {
+function TokenList({ ERC20Results, ERC20TokenDataObjects }) {
   function formatBalance(number) {
     const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -19,12 +19,12 @@ function TokenList({ ERC20results, tokenDataObjects }) {
       alignItems="center"
       justifyContent={"center"}
     >
-      {ERC20results.length === 0 ? (
+      {ERC20Results.length === 0 ? (
         <Center marginTop={"100px"} fontSize={"1.5rem"}>
           No ERC20 Tokens in this address
         </Center>
       ) : (
-        ERC20results.map((e, i) => {
+        ERC20Results.map((e, i) => {
           return (
             <Flex
               w={"100%"}
@@ -35,11 +35,11 @@ function TokenList({ ERC20results, tokenDataObjects }) {
               justifyContent={"space-between"}
               fontSize={"1.3rem"}
             >
-              <Box w={"450px"}>{tokenDataObjects[i].name}&nbsp;</Box>
-              <Box w={"450px"}>{tokenDataObjects[i].symbol}&nbsp;</Box>
+              <Box w={"450px"}>{ERC20TokenDataObjects[i].name}&nbsp;</Box>
+              <Box w={"450px"}>{ERC20TokenDataObjects[i].symbol}&nbsp;</Box>
               <Box w={"250px"}>
-                {ERC20results[i].contractAddress.substring(0, 6)}...
-                {ERC20results[i].contractAddress.substring(38)}
+                {ERC20Results[i].contractAddress.substring(0, 6)}...
+                {ERC20Results[i].contractAddress.substring(38)}
                 &nbsp;
               </Box>
               <Box w={"250px"} textAlign={"end"}>
@@ -47,7 +47,7 @@ function TokenList({ ERC20results, tokenDataObjects }) {
                   Number(
                     Utils.formatUnits(
                       e.tokenBalance,
-                      tokenDataObjects[i].decimals
+                      ERC20TokenDataObjects[i].decimals
                     )
                   )
                 )}
