@@ -10,4 +10,3 @@ This is an skeleton app that uses the Alchemy SDK rigged to Alchemy's Enhanced A
 ## Inspiration
 
 This project is part of the program of [Alchemy University](https://university.alchemy.com/).
-Here are the main instructions.
