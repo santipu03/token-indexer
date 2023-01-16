@@ -12,7 +12,7 @@ function ERC721Tab({ isLoading, hasQueried, ERC721Results }) {
       if (imageURL === "ipfs") {
         const CID = nft.rawMetadata.image.substring(7);
         const newImageURL = "https://gateway.pinata.cloud/ipfs/" + CID;
-        nft.rawMetadata.image = newIpashov.ethageURL;
+        nft.rawMetadata.image = newImageURL;
       }
     });
     return ERC721Tokens;
@@ -22,7 +22,6 @@ function ERC721Tab({ isLoading, hasQueried, ERC721Results }) {
     const filteredResults = filterTokens();
     return (
       <>
-        {console.log(filteredResults)}
         {filteredResults.length === 0 ? (
           <Center marginTop={"100px"} fontSize={"1.5rem"}>
             No ERC-721 Tokens in this address
