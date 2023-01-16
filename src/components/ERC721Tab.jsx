@@ -3,9 +3,6 @@ import {
   Heading,
   Box,
   Center,
-  Card,
-  CardBody,
-  CardHeader,
   Text,
   SimpleGrid,
   Image,
@@ -17,11 +14,12 @@ function ERC721Tab({ isLoading, hasQueried, ERC721Results }) {
     const ERC721Tokens = ERC721Results.ownedNfts.filter((nft) => {
       return nft.tokenType === "ERC721";
     });
+    // Here, we use the Pinata gateway to render the IPFS images, maybe in a future is no longer working
     ERC721Tokens.forEach((nft) => {
       const imageURL = nft.rawMetadata.image.substring(0, 4);
       if (imageURL === "ipfs") {
         const CID = nft.rawMetadata.image.substring(7);
-        const newImageURL = "https://ipfs.io/ipfs/" + CID;
+        const newImageURL = "https://gateway.pinata.cloud/ipfs/" + CID;
         nft.rawMetadata.image = newImageURL;
       }
     });
@@ -40,7 +38,7 @@ function ERC721Tab({ isLoading, hasQueried, ERC721Results }) {
               flexDir={"column"}
               border={"1px solid grey"}
             >
-              <Box objectFit={"contain"} maxWidth={"250px"}>
+              <Box objectFit={"contain"} width={"100%"} height={"80%"}>
                 <Image
                   src={nft.rawMetadata.image}
                   alt="img"
@@ -48,7 +46,7 @@ function ERC721Tab({ isLoading, hasQueried, ERC721Results }) {
                 ></Image>
               </Box>
               <Flex flexDir={"column"}>
-                <Text>{nft.tokenId}</Text>
+                <Text>{nft.title ? nft.title : nft.tokenId}</Text>
                 <Text>{nft.contract.name}</Text>
               </Flex>
             </Flex>
