@@ -21,7 +21,7 @@ function TokenList({ ERC20Results, ERC20TokenDataObjects }) {
     >
       {ERC20Results.length === 0 ? (
         <Center marginTop={"100px"} fontSize={"1.5rem"}>
-          No ERC20 Tokens in this address
+          No ERC-20 Tokens in this address
         </Center>
       ) : (
         ERC20Results.map((e, i) => {

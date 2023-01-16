@@ -1,4 +1,4 @@
-import { Flex, Heading, Box, Center } from "@chakra-ui/react";
+import { Flex, Box, Center } from "@chakra-ui/react";
 import TokenList from "./TokenList";
 import { Utils } from "alchemy-sdk";
 

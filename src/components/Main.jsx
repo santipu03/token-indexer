@@ -16,14 +16,26 @@ function Main({
       <Heading marginBottom={"50px"} fontSize={"36px"}>
         Wallet: {hasQueried ? ERC20Results.address : undefined}
       </Heading>
-      <Button onClick={() => switchTokenTabs(true)}>ERC20</Button>
-      <Button onClick={() => switchTokenTabs(false)}>ERC721</Button>
+      <Button
+        onClick={() => switchTokenTabs(true)}
+        marginRight={"5px"}
+        bg={isERC20Selected ? "#ddd" : "inherit"}
+      >
+        ERC20
+      </Button>
+      <Button
+        onClick={() => switchTokenTabs(false)}
+        bg={!isERC20Selected ? "#ddd" : "inherit"}
+      >
+        ERC721
+      </Button>
       <Box
         border={"1px solid grey"}
         padding={"40px"}
         borderRadius={"5px"}
         minHeight={"600px"}
         bg={"#fff"}
+        marginTop={"10px"}
       >
         {isERC20Selected ? (
           <ERC20Tab
